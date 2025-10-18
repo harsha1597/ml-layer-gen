@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+generated_models/
 # C extensions
 *.so
 
