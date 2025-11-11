@@ -1,0 +1,43 @@
+
+======================================================================
+🚀 STARTING NEW STUDY: tflite-gen-3d-8layers_v2
+   Shape Type: 3d, Max Layers: 8, Trials: 10
+======================================================================
+  Study loaded. Found 0 existing complete trials.
+  Target: 10 complete. Running a new batch of 10 trial(s)...
+
+============================================================
+Trial 0: Executing model with 8 layers
+python3 gen_model.py tflite generated_models/model_trial_tflite-gen-3d-8layers_v2_0.tflite 256,256,3 8 max_pool2d 2,2,2,2,SAME,channels_last max_pool2d 3,3,1,1,VALID,channels_last max_pool2d 2,2,2,2,VALID,channels_last max_pool2d 3,3,2,2,VALID,channels_last max_pool2d 3,3,1,1,SAME,channels_last avg_pool2d 3,3,1,1,SAME,channels_last flatten _ fully_connected ,151,,1
+============================================================
+['python3', 'gen_model.py', 'tflite', 'generated_models/model_trial_tflite-gen-3d-8layers_v2_0.tflite', '256,256,3', '8', 'max_pool2d', '2,2,2,2,SAME,channels_last', 'max_pool2d', '3,3,1,1,VALID,channels_last', 'max_pool2d', '2,2,2,2,VALID,channels_last', 'max_pool2d', '3,3,2,2,VALID,channels_last', 'max_pool2d', '3,3,1,1,SAME,channels_last', 'avg_pool2d', '3,3,1,1,SAME,channels_last', 'flatten', '_', 'fully_connected', ',151,,1']
+ Trial 0: Model generated successfully.
+
+============================================================
+Trial 1: Executing model with 8 layers
+python3 gen_model.py tflite generated_models/model_trial_tflite-gen-3d-8layers_v2_1.tflite 64,32,16 8 depthwise_conv2d 2,3,3,1,1,1,1,SAME,channels_last,,0 avg_pool2d 2,2,1,1,VALID,channels_last avg_pool2d 3,3,2,2,SAME,channels_last max_pool2d 3,3,1,1,VALID,channels_last conv2d 31,5,5,1,1,1,1,SAME,channels_last,,0,1 avg_pool2d 3,3,2,2,VALID,channels_last flatten _ fully_connected ,262,,1
+============================================================
+['python3', 'gen_model.py', 'tflite', 'generated_models/model_trial_tflite-gen-3d-8layers_v2_1.tflite', '64,32,16', '8', 'depthwise_conv2d', '2,3,3,1,1,1,1,SAME,channels_last,,0', 'avg_pool2d', '2,2,1,1,VALID,channels_last', 'avg_pool2d', '3,3,2,2,SAME,channels_last', 'max_pool2d', '3,3,1,1,VALID,channels_last', 'conv2d', '31,5,5,1,1,1,1,SAME,channels_last,,0,1', 'avg_pool2d', '3,3,2,2,VALID,channels_last', 'flatten', '_', 'fully_connected', ',262,,1']
+ Trial 1: Model generated successfully.
+
+============================================================
+Trial 2: Executing model with 8 layers
+python3 gen_model.py tflite generated_models/model_trial_tflite-gen-3d-8layers_v2_2.tflite 512,256,16 8 max_pool2d 2,2,1,1,VALID,channels_last conv2d 21,5,5,2,2,1,1,VALID,channels_last,relu,1,1 avg_pool2d 2,2,2,2,VALID,channels_last depthwise_conv2d 2,5,5,2,2,1,1,VALID,channels_last,relu,1 avg_pool2d 3,3,1,1,SAME,channels_last avg_pool2d 3,3,1,1,VALID,channels_last flatten _ fully_connected ,17,relu,0
+============================================================
+['python3', 'gen_model.py', 'tflite', 'generated_models/model_trial_tflite-gen-3d-8layers_v2_2.tflite', '512,256,16', '8', 'max_pool2d', '2,2,1,1,VALID,channels_last', 'conv2d', '21,5,5,2,2,1,1,VALID,channels_last,relu,1,1', 'avg_pool2d', '2,2,2,2,VALID,channels_last', 'depthwise_conv2d', '2,5,5,2,2,1,1,VALID,channels_last,relu,1', 'avg_pool2d', '3,3,1,1,SAME,channels_last', 'avg_pool2d', '3,3,1,1,VALID,channels_last', 'flatten', '_', 'fully_connected', ',17,relu,0']
+ Trial 2: Model generated successfully.
+
+============================================================
+Trial 3: Executing model with 8 layers
+python3 gen_model.py tflite generated_models/model_trial_tflite-gen-3d-8layers_v2_3.tflite 128,64,3 8 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,1 depthwise_conv2d 1,3,3,2,2,1,1,VALID,channels_last,relu,0 conv2d 102,3,3,2,2,1,1,VALID,channels_last,,0,1 avg_pool2d 3,3,2,2,VALID,channels_last depthwise_conv2d 1,3,3,1,1,1,1,SAME,channels_last,relu,1 conv2d 23,3,3,1,1,1,1,VALID,channels_last,relu,0,1 flatten _ fully_connected ,32,relu,0
+============================================================
+['python3', 'gen_model.py', 'tflite', 'generated_models/model_trial_tflite-gen-3d-8layers_v2_3.tflite', '128,64,3', '8', 'depthwise_conv2d', '1,3,3,2,2,1,1,SAME,channels_last,relu,1', 'depthwise_conv2d', '1,3,3,2,2,1,1,VALID,channels_last,relu,0', 'conv2d', '102,3,3,2,2,1,1,VALID,channels_last,,0,1', 'avg_pool2d', '3,3,2,2,VALID,channels_last', 'depthwise_conv2d', '1,3,3,1,1,1,1,SAME,channels_last,relu,1', 'conv2d', '23,3,3,1,1,1,1,VALID,channels_last,relu,0,1', 'flatten', '_', 'fully_connected', ',32,relu,0']
+ Trial 3: Model generated successfully.
+
+============================================================
+Trial 6: Executing model with 8 layers
+python3 gen_model.py tflite generated_models/model_trial_tflite-gen-3d-8layers_v2_6.tflite 64,64,3 8 conv2d 10,3,3,2,2,1,1,VALID,channels_last,relu,0,1 conv2d 22,3,3,1,1,1,1,SAME,channels_last,relu,0,1 max_pool2d 3,3,2,2,SAME,channels_last max_pool2d 2,2,2,2,VALID,channels_last conv2d 24,3,3,2,2,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,VALID,channels_last,relu,1 flatten _ fully_connected ,15,,0
+============================================================
+['python3', 'gen_model.py', 'tflite', 'generated_models/model_trial_tflite-gen-3d-8layers_v2_6.tflite', '64,64,3', '8', 'conv2d', '10,3,3,2,2,1,1,VALID,channels_last,relu,0,1', 'conv2d', '22,3,3,1,1,1,1,SAME,channels_last,relu,0,1', 'max_pool2d', '3,3,2,2,SAME,channels_last', 'max_pool2d', '2,2,2,2,VALID,channels_last', 'conv2d', '24,3,3,2,2,1,1,SAME,channels_last,relu,1,1', 'depthwise_conv2d', '1,3,3,2,2,1,1,VALID,channels_last,relu,1', 'flatten', '_', 'fully_connected', ',15,,0']
+ Trial 6: Model generated successfully.
+Study interrupted by user.

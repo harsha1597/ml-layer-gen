@@ -1,0 +1,309 @@
+Starting fixed model build process...
+Found 9 configurations to test.
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_64_tiny_mobilenet_gap (10 layers)
+   File: generated_models_fixed/model_64_tiny_mobilenet_gap.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (64, 64, 3)
+     ... Layer 0 OK. Output shape (32, 32, 8)
+  -> Layer 1 (depthwise_conv2d): Input shape (32, 32, 8)
+     ... Layer 1 OK. Output shape (16, 16, 8)
+  -> Layer 2 (conv2d): Input shape (16, 16, 8)
+     ... Layer 2 OK. Output shape (16, 16, 16)
+  -> Layer 3 (depthwise_conv2d): Input shape (16, 16, 16)
+     ... Layer 3 OK. Output shape (8, 8, 32)
+  -> Layer 4 (conv2d): Input shape (8, 8, 32)
+     ... Layer 4 OK. Output shape (8, 8, 32)
+  -> Layer 5 (depthwise_conv2d): Input shape (8, 8, 32)
+     ... Layer 5 OK. Output shape (4, 4, 64)
+  -> Layer 6 (conv2d): Input shape (4, 4, 64)
+     ... Layer 6 OK. Output shape (4, 4, 64)
+  -> Layer 7 (avg_pool2d): Input shape (4, 4, 64)
+     ... Layer 7 OK. Output shape (1, 1, 64)
+  -> Layer 8 (flatten): Input shape (1, 1, 64)
+     ... Layer 8 OK. Output shape (64,)
+  -> Layer 9 (fully_connected): Input shape (64,)
+     ... Layer 9 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_64_tiny_mobilenet_gap
+python3 gen_model.py tflite generated_models_fixed/model_64_tiny_mobilenet_gap.tflite 64,64,3 10 conv2d 8,3,3,2,2,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 16,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 2,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 32,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 2,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 64,1,1,1,1,1,1,SAME,channels_last,relu,1,1 avg_pool2d 4,4,1,1,VALID,channels_last flatten _ fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_64_tiny_mobilenet_gap.tflite
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_224_alexnet_style (12 layers)
+   File: generated_models_fixed/model_224_alexnet_style.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (224, 224, 3)
+     ... Layer 0 OK. Output shape (56, 56, 48)
+  -> Layer 1 (max_pool2d): Input shape (56, 56, 48)
+     ... Layer 1 OK. Output shape (28, 28, 48)
+  -> Layer 2 (conv2d): Input shape (28, 28, 48)
+     ... Layer 2 OK. Output shape (28, 28, 128)
+  -> Layer 3 (max_pool2d): Input shape (28, 28, 128)
+     ... Layer 3 OK. Output shape (14, 14, 128)
+  -> Layer 4 (conv2d): Input shape (14, 14, 128)
+     ... Layer 4 OK. Output shape (14, 14, 192)
+  -> Layer 5 (conv2d): Input shape (14, 14, 192)
+     ... Layer 5 OK. Output shape (14, 14, 192)
+  -> Layer 6 (conv2d): Input shape (14, 14, 192)
+     ... Layer 6 OK. Output shape (14, 14, 128)
+  -> Layer 7 (max_pool2d): Input shape (14, 14, 128)
+     ... Layer 7 OK. Output shape (7, 7, 128)
+  -> Layer 8 (flatten): Input shape (7, 7, 128)
+     ... Layer 8 OK. Output shape (6272,)
+  -> Layer 9 (fully_connected): Input shape (6272,)
+     ... Layer 9 OK. Output shape (1024,)
+  -> Layer 10 (fully_connected): Input shape (1024,)
+     ... Layer 10 OK. Output shape (1024,)
+  -> Layer 11 (fully_connected): Input shape (1024,)
+     ... Layer 11 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_224_alexnet_style
+python3 gen_model.py tflite generated_models_fixed/model_224_alexnet_style.tflite 224,224,3 12 conv2d 48,11,11,4,4,1,1,SAME,channels_last,relu,1,1 max_pool2d 3,3,2,2,SAME,channels_last conv2d 128,5,5,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 3,3,2,2,SAME,channels_last conv2d 192,3,3,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 192,3,3,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 128,3,3,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 3,3,2,2,SAME,channels_last flatten _ fully_connected ,1024,relu,1 fully_connected ,1024,relu,1 fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_224_alexnet_style.tflite
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_254_inception_components (12 layers)
+   File: generated_models_fixed/model_254_inception_components.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (254, 254, 3)
+     ... Layer 0 OK. Output shape (127, 127, 32)
+  -> Layer 1 (max_pool2d): Input shape (127, 127, 32)
+     ... Layer 1 OK. Output shape (64, 64, 32)
+  -> Layer 2 (conv2d): Input shape (64, 64, 32)
+     ... Layer 2 OK. Output shape (64, 64, 32)
+  -> Layer 3 (conv2d): Input shape (64, 64, 32)
+     ... Layer 3 OK. Output shape (64, 64, 48)
+  -> Layer 4 (conv2d): Input shape (64, 64, 48)
+     ... Layer 4 OK. Output shape (64, 64, 16)
+  -> Layer 5 (max_pool2d): Input shape (64, 64, 16)
+     ... Layer 5 OK. Output shape (32, 32, 16)
+  -> Layer 6 (conv2d): Input shape (32, 32, 16)
+     ... Layer 6 OK. Output shape (32, 32, 64)
+  -> Layer 7 (conv2d): Input shape (32, 32, 64)
+     ... Layer 7 OK. Output shape (32, 32, 96)
+  -> Layer 8 (max_pool2d): Input shape (32, 32, 96)
+     ... Layer 8 OK. Output shape (16, 16, 96)
+  -> Layer 9 (flatten): Input shape (16, 16, 96)
+     ... Layer 9 OK. Output shape (24576,)
+  -> Layer 10 (fully_connected): Input shape (24576,)
+     ... Layer 10 OK. Output shape (256,)
+  -> Layer 11 (fully_connected): Input shape (256,)
+     ... Layer 11 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_254_inception_components
+python3 gen_model.py tflite generated_models_fixed/model_254_inception_components.tflite 254,254,3 12 conv2d 32,7,7,2,2,1,1,SAME,channels_last,relu,1,1 max_pool2d 3,3,2,2,SAME,channels_last conv2d 32,1,1,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 48,3,3,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 16,5,5,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 2,2,2,2,SAME,channels_last conv2d 64,1,1,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 96,3,3,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 2,2,2,2,SAME,channels_last flatten _ fully_connected ,256,relu,1 fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_254_inception_components.tflite
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_512_very_deep_valid (14 layers)
+   File: generated_models_fixed/model_512_very_deep_valid.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (512, 512, 3)
+     ... Layer 0 OK. Output shape (510, 510, 8)
+  -> Layer 1 (conv2d): Input shape (510, 510, 8)
+     ... Layer 1 OK. Output shape (254, 254, 8)
+  -> Layer 2 (conv2d): Input shape (254, 254, 8)
+     ... Layer 2 OK. Output shape (252, 252, 16)
+  -> Layer 3 (conv2d): Input shape (252, 252, 16)
+     ... Layer 3 OK. Output shape (125, 125, 16)
+  -> Layer 4 (conv2d): Input shape (125, 125, 16)
+     ... Layer 4 OK. Output shape (123, 123, 32)
+  -> Layer 5 (conv2d): Input shape (123, 123, 32)
+     ... Layer 5 OK. Output shape (61, 61, 32)
+  -> Layer 6 (conv2d): Input shape (61, 61, 32)
+     ... Layer 6 OK. Output shape (59, 59, 64)
+  -> Layer 7 (conv2d): Input shape (59, 59, 64)
+     ... Layer 7 OK. Output shape (29, 29, 64)
+  -> Layer 8 (conv2d): Input shape (29, 29, 64)
+     ... Layer 8 OK. Output shape (14, 14, 128)
+  -> Layer 9 (conv2d): Input shape (14, 14, 128)
+     ... Layer 9 OK. Output shape (6, 6, 128)
+  -> Layer 10 (conv2d): Input shape (6, 6, 128)
+     ... Layer 10 OK. Output shape (2, 2, 256)
+  -> Layer 11 (conv2d): Input shape (2, 2, 256)
+     ... Layer 11 OK. Output shape (1, 1, 256)
+  -> Layer 12 (flatten): Input shape (1, 1, 256)
+     ... Layer 12 OK. Output shape (256,)
+  -> Layer 13 (fully_connected): Input shape (256,)
+     ... Layer 13 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_512_very_deep_valid
+python3 gen_model.py tflite generated_models_fixed/model_512_very_deep_valid.tflite 512,512,3 14 conv2d 8,3,3,1,1,1,1,VALID,channels_last,relu,1,1 conv2d 8,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 16,3,3,1,1,1,1,VALID,channels_last,relu,1,1 conv2d 16,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 32,3,3,1,1,1,1,VALID,channels_last,relu,1,1 conv2d 32,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 64,3,3,1,1,1,1,VALID,channels_last,relu,1,1 conv2d 64,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 128,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 128,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 256,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 256,2,2,1,1,1,1,VALID,channels_last,relu,1,1 flatten _ fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_512_very_deep_valid.tflite
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_3d_FAILURE_TEST_VALID_pooling (5 layers)
+   File: generated_models_fixed/model_3d_FAILURE_TEST_VALID_pooling.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (16, 16, 3)
+     ... Layer 0 OK. Output shape (16, 16, 8)
+  -> Layer 1 (max_pool2d): Input shape (16, 16, 8)
+     ... Layer 1 OK. Output shape (8, 8, 8)
+  -> Layer 2 (avg_pool2d): Input shape (8, 8, 8)
+   Validation Error: 'VALID' padding with pool_size 9 is too large for input 8x8.
+❌ FAILED (Validation Error): Invalid layer parameters for layer 2 (avg_pool2d).
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_254_valid_reduction (10 layers)
+   File: generated_models_fixed/model_254_valid_reduction.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (254, 254, 3)
+     ... Layer 0 OK. Output shape (125, 125, 8)
+  -> Layer 1 (max_pool2d): Input shape (125, 125, 8)
+     ... Layer 1 OK. Output shape (62, 62, 8)
+  -> Layer 2 (conv2d): Input shape (62, 62, 8)
+     ... Layer 2 OK. Output shape (30, 30, 16)
+  -> Layer 3 (conv2d): Input shape (30, 30, 16)
+     ... Layer 3 OK. Output shape (14, 14, 32)
+  -> Layer 4 (max_pool2d): Input shape (14, 14, 32)
+     ... Layer 4 OK. Output shape (7, 7, 32)
+  -> Layer 5 (conv2d): Input shape (7, 7, 32)
+     ... Layer 5 OK. Output shape (5, 5, 64)
+  -> Layer 6 (conv2d): Input shape (5, 5, 64)
+     ... Layer 6 OK. Output shape (1, 1, 128)
+  -> Layer 7 (flatten): Input shape (1, 1, 128)
+     ... Layer 7 OK. Output shape (128,)
+  -> Layer 8 (fully_connected): Input shape (128,)
+     ... Layer 8 OK. Output shape (64,)
+  -> Layer 9 (fully_connected): Input shape (64,)
+     ... Layer 9 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_254_valid_reduction
+python3 gen_model.py tflite generated_models_fixed/model_254_valid_reduction.tflite 254,254,3 10 conv2d 8,5,5,2,2,1,1,VALID,channels_last,relu,1,1 max_pool2d 3,3,2,2,VALID,channels_last conv2d 16,3,3,2,2,1,1,VALID,channels_last,relu,1,1 conv2d 32,3,3,2,2,1,1,VALID,channels_last,relu,1,1 max_pool2d 2,2,2,2,VALID,channels_last conv2d 64,3,3,1,1,1,1,VALID,channels_last,relu,1,1 conv2d 128,5,5,1,1,1,1,VALID,channels_last,relu,1,1 flatten _ fully_connected ,64,relu,1 fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_254_valid_reduction.tflite
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_254_mixed_same_padding (11 layers)
+   File: generated_models_fixed/model_254_mixed_same_padding.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (254, 254, 3)
+     ... Layer 0 OK. Output shape (127, 127, 16)
+  -> Layer 1 (max_pool2d): Input shape (127, 127, 16)
+     ... Layer 1 OK. Output shape (64, 64, 16)
+  -> Layer 2 (conv2d): Input shape (64, 64, 16)
+     ... Layer 2 OK. Output shape (64, 64, 32)
+  -> Layer 3 (depthwise_conv2d): Input shape (64, 64, 32)
+     ... Layer 3 OK. Output shape (32, 32, 32)
+  -> Layer 4 (conv2d): Input shape (32, 32, 32)
+     ... Layer 4 OK. Output shape (32, 32, 64)
+  -> Layer 5 (depthwise_conv2d): Input shape (32, 32, 64)
+     ... Layer 5 OK. Output shape (16, 16, 64)
+  -> Layer 6 (conv2d): Input shape (16, 16, 64)
+     ... Layer 6 OK. Output shape (16, 16, 128)
+  -> Layer 7 (depthwise_conv2d): Input shape (16, 16, 128)
+     ... Layer 7 OK. Output shape (8, 8, 128)
+  -> Layer 8 (flatten): Input shape (8, 8, 128)
+     ... Layer 8 OK. Output shape (8192,)
+  -> Layer 9 (fully_connected): Input shape (8192,)
+     ... Layer 9 OK. Output shape (256,)
+  -> Layer 10 (fully_connected): Input shape (256,)
+     ... Layer 10 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_254_mixed_same_padding
+python3 gen_model.py tflite generated_models_fixed/model_254_mixed_same_padding.tflite 254,254,3 11 conv2d 16,7,7,2,2,1,1,SAME,channels_last,relu,1,1 max_pool2d 3,3,2,2,SAME,channels_last conv2d 32,3,3,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 64,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 128,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 flatten _ fully_connected ,256,relu,1 fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_254_mixed_same_padding.tflite
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_512_deep_vgg (16 layers)
+   File: generated_models_fixed/model_512_deep_vgg.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (512, 512, 3)
+     ... Layer 0 OK. Output shape (512, 512, 8)
+  -> Layer 1 (conv2d): Input shape (512, 512, 8)
+     ... Layer 1 OK. Output shape (512, 512, 8)
+  -> Layer 2 (max_pool2d): Input shape (512, 512, 8)
+     ... Layer 2 OK. Output shape (256, 256, 8)
+  -> Layer 3 (conv2d): Input shape (256, 256, 8)
+     ... Layer 3 OK. Output shape (256, 256, 16)
+  -> Layer 4 (conv2d): Input shape (256, 256, 16)
+     ... Layer 4 OK. Output shape (256, 256, 16)
+  -> Layer 5 (max_pool2d): Input shape (256, 256, 16)
+     ... Layer 5 OK. Output shape (128, 128, 16)
+  -> Layer 6 (conv2d): Input shape (128, 128, 16)
+     ... Layer 6 OK. Output shape (128, 128, 32)
+  -> Layer 7 (conv2d): Input shape (128, 128, 32)
+     ... Layer 7 OK. Output shape (128, 128, 32)
+  -> Layer 8 (max_pool2d): Input shape (128, 128, 32)
+     ... Layer 8 OK. Output shape (64, 64, 32)
+  -> Layer 9 (conv2d): Input shape (64, 64, 32)
+     ... Layer 9 OK. Output shape (64, 64, 64)
+  -> Layer 10 (max_pool2d): Input shape (64, 64, 64)
+     ... Layer 10 OK. Output shape (32, 32, 64)
+  -> Layer 11 (conv2d): Input shape (32, 32, 64)
+     ... Layer 11 OK. Output shape (32, 32, 128)
+  -> Layer 12 (max_pool2d): Input shape (32, 32, 128)
+     ... Layer 12 OK. Output shape (16, 16, 128)
+  -> Layer 13 (flatten): Input shape (16, 16, 128)
+     ... Layer 13 OK. Output shape (32768,)
+  -> Layer 14 (fully_connected): Input shape (32768,)
+     ... Layer 14 OK. Output shape (512,)
+  -> Layer 15 (fully_connected): Input shape (512,)
+     ... Layer 15 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_512_deep_vgg
+python3 gen_model.py tflite generated_models_fixed/model_512_deep_vgg.tflite 512,512,3 16 conv2d 8,3,3,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 8,3,3,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 2,2,2,2,SAME,channels_last conv2d 16,3,3,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 16,3,3,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 2,2,2,2,SAME,channels_last conv2d 32,3,3,1,1,1,1,SAME,channels_last,relu,1,1 conv2d 32,3,3,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 2,2,2,2,SAME,channels_last conv2d 64,3,3,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 2,2,2,2,SAME,channels_last conv2d 128,3,3,1,1,1,1,SAME,channels_last,relu,1,1 max_pool2d 2,2,2,2,SAME,channels_last flatten _ fully_connected ,512,relu,1 fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_512_deep_vgg.tflite
+
+======================================================================
+🚀 ATTEMPTING BUILD: model_512_efficient_dw_gap (14 layers)
+   File: generated_models_fixed/model_512_efficient_dw_gap.tflite
+======================================================================
+  -> Layer 0 (conv2d): Input shape (512, 512, 3)
+     ... Layer 0 OK. Output shape (256, 256, 32)
+  -> Layer 1 (depthwise_conv2d): Input shape (256, 256, 32)
+     ... Layer 1 OK. Output shape (128, 128, 32)
+  -> Layer 2 (conv2d): Input shape (128, 128, 32)
+     ... Layer 2 OK. Output shape (128, 128, 64)
+  -> Layer 3 (depthwise_conv2d): Input shape (128, 128, 64)
+     ... Layer 3 OK. Output shape (64, 64, 64)
+  -> Layer 4 (conv2d): Input shape (64, 64, 64)
+     ... Layer 4 OK. Output shape (64, 64, 128)
+  -> Layer 5 (depthwise_conv2d): Input shape (64, 64, 128)
+     ... Layer 5 OK. Output shape (32, 32, 128)
+  -> Layer 6 (conv2d): Input shape (32, 32, 128)
+     ... Layer 6 OK. Output shape (32, 32, 256)
+  -> Layer 7 (depthwise_conv2d): Input shape (32, 32, 256)
+     ... Layer 7 OK. Output shape (16, 16, 256)
+  -> Layer 8 (conv2d): Input shape (16, 16, 256)
+     ... Layer 8 OK. Output shape (16, 16, 256)
+  -> Layer 9 (depthwise_conv2d): Input shape (16, 16, 256)
+     ... Layer 9 OK. Output shape (8, 8, 256)
+  -> Layer 10 (conv2d): Input shape (8, 8, 256)
+     ... Layer 10 OK. Output shape (8, 8, 512)
+  -> Layer 11 (avg_pool2d): Input shape (8, 8, 512)
+     ... Layer 11 OK. Output shape (1, 1, 512)
+  -> Layer 12 (flatten): Input shape (1, 1, 512)
+     ... Layer 12 OK. Output shape (512,)
+  -> Layer 13 (fully_connected): Input shape (512,)
+     ... Layer 13 OK. Output shape (10,)
+
+------------------------------------------------------------
+Executing model build for: model_512_efficient_dw_gap
+python3 gen_model.py tflite generated_models_fixed/model_512_efficient_dw_gap.tflite 512,512,3 14 conv2d 32,3,3,2,2,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 64,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 128,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 256,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 256,1,1,1,1,1,1,SAME,channels_last,relu,1,1 depthwise_conv2d 1,3,3,2,2,1,1,SAME,channels_last,relu,0 conv2d 512,1,1,1,1,1,1,SAME,channels_last,relu,1,1 avg_pool2d 8,8,1,1,VALID,channels_last flatten _ fully_connected ,10,,1
+------------------------------------------------------------
+✅ SUCCESS: Model generated successfully: generated_models_fixed/model_512_efficient_dw_gap.tflite
+
+======================================================================
+🎉 Build Process Finished 🎉
+======================================================================
+  Total Configurations Attempted: 9
+  ✅ Successful Builds: 8
+  ❌ Failed Builds:     1
+
+Log file saved to: /nas/ei/share/TUEIEDAscratch/ge85zic/ml-layer-gen/fixed_build_log.txt
