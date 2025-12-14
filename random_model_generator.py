@@ -10,11 +10,11 @@ os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 # --- Main Configuration ---
 # ===================================================================
 GEN_MODEL_SCRIPT = "gen_model.py"
-OUTPUT_DIR = "random_cnn_models"
+OUTPUT_DIR = "random_fc_models"
 LOG_FILE = "random_build_log.txt"
-
+SHAPE_TYPE = "1d"
 # Number of random models to attempt to build
-NUM_MODELS_TO_GENERATE = 25 
+NUM_MODELS_TO_GENERATE = 50 
 
 # ===================================================================
 # --- Random Generation Specs ---
@@ -22,15 +22,26 @@ NUM_MODELS_TO_GENERATE = 25
 
 # Define the "universe" of parameters our generator can pick from.
 # Feel free to add/remove options here to test different ranges.
+# ===================================================================
+# --- Random Generation Specs ---
+# ===================================================================
+
+# Define the "universe" of parameters our generator can pick from.
+# Feel free to add/remove options here to test different ranges.
 MODEL_SPECS = {
-    "min_layers": 2,
-    "max_layers": 100,
+    "min_layers": 5,
+    "max_layers": 50,
     "min_3d_layers_before_flatten": 0.75,
     "1d_input_dims": [32,64,128, 256, 512],
-    "3d_input_h": [64,128,256,512,1024], 
-    "3d_input_w": [64,128,256,512,1024],
+    "3d_input_h": [32,64,128,256,512,1024], 
+    "3d_input_w": [32,64,128,256,512,1024],
     "3d_input_c": [1, 3],
-    "final_classifier_units": [2,10,50] # Num classes
+    "final_classifier_units": [2,10,20], # Num classes
+    
+    # --- NEW RULE ---
+    # If H or W dimensions fall to this value or below,
+    # force stride=1 and padding=SAME to prevent dead ends.
+    "MIN_DIM_FOR_STRIDE": 8 
 }
 
 LAYER_CHOICES = {
@@ -41,7 +52,7 @@ LAYER_CHOICES = {
 
     "conv2d": {
         "filters": [8, 16, 32, 64, 128],
-        "kernel": [1, 3, 5],
+        "kernel": [1, 3, 5], # '1' is already here, which is good.
         "stride": [1, 2],
         "padding": ["SAME", "VALID"],
         "activation": ["relu", ""],
@@ -49,14 +60,14 @@ LAYER_CHOICES = {
     },
     "depthwise_conv2d": {
         "multiplier": [1, 2],
-        "kernel": [3, 5],
+        "kernel": [1, 3, 5], # <-- ADDED '1' as a failsafe
         "stride": [1, 2],
         "padding": ["SAME", "VALID"],
         "activation": ["relu", ""],
         "bias": [0, 1]
     },
     "pool2d": { # Covers avg_pool2d and max_pool2d
-        "pool_size": [2, 3],
+        "pool_size": [1, 2, 3], # <-- ADDED '1' as a failsafe
         "stride": [1, 2],
         "padding": ["SAME", "VALID"]
     },
@@ -66,7 +77,6 @@ LAYER_CHOICES = {
         "bias": [0, 1]
     }
 }
-
 
 # ===================================================================
 # --- Logging Setup ---
@@ -95,6 +105,9 @@ def calculate_conv_output_dim(input_dim, kernel, padding, stride):
 # ===================================================================
 # --- NEW: Random Config Generator ---
 # ===================================================================
+# ===================================================================
+# --- NEW: Random Config Generator ---
+# ===================================================================
 def generate_random_config(model_index: int) -> dict:
     """
     Generates a single, VALID model configuration dictionary.
@@ -109,8 +122,11 @@ def generate_random_config(model_index: int) -> dict:
     
     print(f"\n--- Generating Config: {model_name} ---")
 
+    # --- Get the new rule from MODEL_SPECS ---
+    MIN_DIM_FOR_STRIDE = MODEL_SPECS.get("MIN_DIM_FOR_STRIDE", 4)
+
     # 1. --- Set up Input Shape ---
-    shape_type = "3d" # random.choice(["1d", "3d"])
+    shape_type = SHAPE_TYPE # random.choice(["1d", "3d"])
     config["shape_type"] = shape_type
     
     if shape_type == "3d":
@@ -128,11 +144,13 @@ def generate_random_config(model_index: int) -> dict:
         
     print(f"  Input Shape ({shape_type}): {current_shape}")
     num_3d_layers_added = 0
-    min_3d_layers = MODEL_SPECS.get("min_3d_layers_before_flatten", 0.5)
+    min_3d_layers_percent = MODEL_SPECS.get("min_3d_layers_before_flatten", 0.5)
+    
     # 2. --- Generate Body Layers ---
     num_layers = random.randint(MODEL_SPECS["min_layers"], MODEL_SPECS["max_layers"])
-    min_3d_layers = int(min_3d_layers*num_layers)
-    print("No Layers: ",num_layers, min_3d_layers)
+    min_3d_layers = int(min_3d_layers_percent * num_layers) # Calculate absolute min
+    print(f"  Target Layers: {num_layers} (min {min_3d_layers} 3D layers)")
+    
     for i in range(num_layers):
         layer_config = {}
         
@@ -147,7 +165,9 @@ def generate_random_config(model_index: int) -> dict:
             # Enforce minimum 3D layers before allowing flatten
             if num_3d_layers_added < min_3d_layers and "flatten" in available_ops:
                 available_ops.remove("flatten")
-                print(f"     ... (Note) 'flatten' removed (need {min_3d_layers} 3D layers, have {num_3d_layers_added})")
+                # This log can be noisy, so let's make it conditional
+                if i % 10 == 0: 
+                    print(f"     ... (Note) 'flatten' removed (need {min_3d_layers} 3D layers, have {num_3d_layers_added})")
 
             if not available_ops:
                 print("     ... (Dead End) No valid 3D ops left. Stopping.")
@@ -164,8 +184,15 @@ def generate_random_config(model_index: int) -> dict:
                 h, w, c = current_shape
                 choices = LAYER_CHOICES["conv2d"]
                 
-                padding = random.choice(choices["padding"])
-                stride = random.choice(choices["stride"])
+                # --- START: ANTI-SHRINK RULE ---
+                if h <= MIN_DIM_FOR_STRIDE or w <= MIN_DIM_FOR_STRIDE:
+                    print(f"     ... (Note) Small shape ({h}x{w}). Forcing padding=SAME, stride=1.")
+                    padding = "SAME"
+                    stride = 1
+                else:
+                    padding = random.choice(choices["padding"])
+                    stride = random.choice(choices["stride"])
+                # --- END: ANTI-SHRINK RULE ---
                 
                 # *** CRITICAL VALIDATION ***
                 # For 'VALID' padding, kernel cannot be larger than input dim
@@ -174,7 +201,7 @@ def generate_random_config(model_index: int) -> dict:
                 
                 valid_kernels = [k for k in choices["kernel"] if k <= max_kernel_h and k <= max_kernel_w]
                 if not valid_kernels:
-                    print("     ... (Dead End) No valid kernel size. Stopping.")
+                    print(f"     ... (Dead End) No valid kernel size for {h}x{w} (Max {max_kernel_h}x{max_kernel_w}). Stopping.")
                     break # Stop adding layers
                 
                 kernel = random.choice(valid_kernels)
@@ -196,8 +223,15 @@ def generate_random_config(model_index: int) -> dict:
                 h, w, c = current_shape
                 choices = LAYER_CHOICES["depthwise_conv2d"]
                 
-                padding = random.choice(choices["padding"])
-                stride = random.choice(choices["stride"])
+                # --- START: ANTI-SHRINK RULE ---
+                if h <= MIN_DIM_FOR_STRIDE or w <= MIN_DIM_FOR_STRIDE:
+                    print(f"     ... (Note) Small shape ({h}x{w}). Forcing padding=SAME, stride=1.")
+                    padding = "SAME"
+                    stride = 1
+                else:
+                    padding = random.choice(choices["padding"])
+                    stride = random.choice(choices["stride"])
+                # --- END: ANTI-SHRINK RULE ---
 
                 # *** CRITICAL VALIDATION ***
                 max_kernel_h = h if padding == "VALID" else max(choices["kernel"])
@@ -205,7 +239,7 @@ def generate_random_config(model_index: int) -> dict:
                 
                 valid_kernels = [k for k in choices["kernel"] if k <= max_kernel_h and k <= max_kernel_w]
                 if not valid_kernels:
-                    print("     ... (Dead End) No valid kernel size. Stopping.")
+                    print(f"     ... (Dead End) No valid kernel size for {h}x{w} (Max {max_kernel_h}x{max_kernel_w}). Stopping.")
                     break
                 
                 kernel = random.choice(valid_kernels)
@@ -227,8 +261,15 @@ def generate_random_config(model_index: int) -> dict:
                 h, w, c = current_shape
                 choices = LAYER_CHOICES["pool2d"]
                 
-                padding = random.choice(choices["padding"])
-                stride = random.choice(choices["stride"])
+                # --- START: ANTI-SHRINK RULE ---
+                if h <= MIN_DIM_FOR_STRIDE or w <= MIN_DIM_FOR_STRIDE:
+                    print(f"     ... (Note) Small shape ({h}x{w}). Forcing padding=SAME, stride=1.")
+                    padding = "SAME"
+                    stride = 1
+                else:
+                    padding = random.choice(choices["padding"])
+                    stride = random.choice(choices["stride"])
+                # --- END: ANTI-SHRINK RULE ---
 
                 # *** CRITICAL VALIDATION ***
                 max_pool_h = h if padding == "VALID" else max(choices["pool_size"])
@@ -236,7 +277,7 @@ def generate_random_config(model_index: int) -> dict:
                 
                 valid_pools = [p for p in choices["pool_size"] if p <= max_pool_h and p <= max_pool_w]
                 if not valid_pools:
-                    print("     ... (Dead End) No valid pool size. Stopping.")
+                    print(f"     ... (Dead End) No valid pool size for {h}x{w} (Max {max_pool_h}x{max_pool_w}). Stopping.")
                     break
                 
                 pool_size = random.choice(valid_pools)
@@ -270,7 +311,7 @@ def generate_random_config(model_index: int) -> dict:
             if any(d <= 0 for d in current_shape):
                  print(f"     ... (Dead End) Output shape {current_shape} is invalid. Stopping.")
                  break
-            if layer_op in ["conv2d", "depthwise_conv2d", "max_pool2d", "avg_pool2d"]: # <--- NEW
+            if layer_op in ["conv2d", "depthwise_conv2d", "max_pool2d", "avg_pool2d"]:
                 num_3d_layers_added += 1
             layers.append(layer_config)
             print(f"     ... OK. New shape: {current_shape}")
@@ -286,17 +327,24 @@ def generate_random_config(model_index: int) -> dict:
         layers.append({"op": "flatten"})
         h, w, c = current_shape
         current_shape = (h * w * c,)
+        print(f"     ... OK. New shape: {current_shape}")
 
     print("  Adding final Fully_Connected (classifier) layer...")
+    final_units = random.choice(MODEL_SPECS["final_classifier_units"])
     layers.append({
         "op": "fully_connected",
-        "units": random.choice(MODEL_SPECS["final_classifier_units"]),
+        "units": final_units,
         "activation": "", # Logits
         "bias": 1
     })
+    current_shape = (final_units,)
+    print(f"     ... OK. Final shape: {current_shape}")
 
     config["layers"] = layers
+    print(f"--- Config Generation Complete: {model_name} ({len(layers)} layers) ---")
     return config
+
+
 
 # ===================================================================
 # --- Model Build Function (Unchanged from your script) ---

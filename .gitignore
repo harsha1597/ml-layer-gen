@@ -7,6 +7,7 @@ generated_models/
 *.so
 *.tflite
 *.db
+*.ipynb
 # Distribution / packaging
 .Python
 build/
